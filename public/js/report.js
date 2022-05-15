@@ -936,6 +936,7 @@ $(document).ready(function() {
             },
         },
         columns: [
+
             { data: 'product_name', name: 'p.name' },
             { data: 'sub_sku', name: 'v.sub_sku' },
             { data: 'customer', name: 'c.name' },
@@ -1229,6 +1230,7 @@ $(document).ready(function() {
                 data: null,
                 defaultContent: '',
             },
+            { data: 'checkbox', name: 'checkbox' },
             { data: 'payment_ref_no', name: 'payment_ref_no' },
             { data: 'paid_on', name: 'paid_on' },
             { data: 'amount', name: 'transaction_payments.amount' },
@@ -1250,7 +1252,23 @@ $(document).ready(function() {
                     .addClass('details-control');
             }
         },
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf',
+            {
+                extend: 'print',
+                customize: function ( win ) {
+                    var selected_reports = $('.selected_report_item:checked');
+                    console.log(win);
+                }
+            }
+        ]
+
     });
+
+
+
+
+
     // Array to track the ids of the details displayed rows
     var spr_detail_rows = [];
 

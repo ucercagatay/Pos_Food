@@ -39,6 +39,7 @@
             <table class="table table-bordered table-striped ajax_view" id="sell_table">
                 <thead>
                     <tr>
+                        <th>Seçim</th>
                         <th>@lang('messages.action')</th>
                         <th>@lang('messages.date')</th>
                         <th>@lang('sale.invoice_no')</th>
@@ -158,6 +159,7 @@ $(document).ready( function(){
         scrollX:        true,
         scrollCollapse: true,
         columns: [
+            { data: 'checkbox', name: 'checkbox' },
             { data: 'action', name: 'action', orderable: false, "searchable": false},
             { data: 'transaction_date', name: 'transaction_date'  },
             { data: 'invoice_no', name: 'invoice_no'},
@@ -211,7 +213,34 @@ $(document).ready( function(){
         },
         createdRow: function( row, data, dataIndex ) {
             $( row ).find('td:eq(6)').attr('class', 'clickable_td');
-        }
+        },
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf',
+            {
+                text: 'Yazdur',
+                action: function ( e, dt, node, config ) {
+                    var ids = [];
+                    var selected_reports = $('.selected_sell_item:checked');
+                    $.each(selected_reports,function(index,value){
+                        ids.push(value.value)
+                    });
+                    let test = ids.toString();
+                    $.ajax({
+                        url: '{{route('sell.printInvoiceMulti',0)}}'+test,
+                        type: 'GET',
+                        success: function(res) {
+                            console.log(res.receipt.html_content);
+                            var printContents = res.receipt.html_content;
+                            var originalContents = document.body.innerHTML;
+                            document.body.innerHTML = printContents;
+                            window.print();
+                            document.body.innerHTML = originalContents;
+                        }
+                    });
+
+                }
+            }
+        ]
     });
 
     $(document).on('change', '#sell_list_filter_location_id, #sell_list_filter_customer_id, #sell_list_filter_payment_status, #created_by, #sales_cmsn_agnt, #service_staffs, #shipping_status, #sell_list_filter_source',  function() {

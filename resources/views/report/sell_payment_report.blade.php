@@ -78,6 +78,7 @@
                         <thead>
                             <tr>
                                 <th>&nbsp;</th>
+                                <th></th>
                                 <th>@lang('purchase.ref_no')</th>
                                 <th>@lang('lang_v1.paid_on')</th>
                                 <th>@lang('sale.amount')</th>

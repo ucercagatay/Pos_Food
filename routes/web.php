@@ -166,7 +166,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/labels/preview', 'LabelsController@preview');
 
     //Reports...
-    Route::get('/reports/get-stock-by-sell-price', 'ReportController@getStockBySellingPrice');
+    Route::get('/reports/get-stock-byice', 'ReportController@getStockBySellingPrice');
     Route::get('/reports/purchase-report', 'ReportController@purchaseReport');
     Route::get('/reports/sale-report', 'ReportController@saleReport');
     Route::get('/reports/service-staff-report', 'ReportController@getServiceStaffReport');
@@ -413,6 +413,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone'])
     Route::get('/download-purchase-order/{id}/pdf', 'PurchaseOrderController@downloadPdf')->name('purchaseOrder.downloadPdf');
     Route::get('/sells/{id}', 'SellController@show');
     Route::get('/sells/{transaction_id}/print', 'SellPosController@printInvoice')->name('sell.printInvoice');
+    Route::get('/sells/printMulti/{transaction_id}', 'SellPosControllerMulti@printInvoiceMulti')->name('sell.printInvoiceMulti');
     Route::get('/download-sells/{transaction_id}/pdf', 'SellPosController@downloadPdf')->name('sell.downloadPdf');
     Route::get('/download-quotation/{id}/pdf', 'SellPosController@downloadQuotationPdf')
         ->name('quotation.downloadPdf');

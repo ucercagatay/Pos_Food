@@ -331,6 +331,10 @@ class SellController extends Controller
             }
             $sales_order_statuses = Transaction::sales_order_statuses();
             $datatable = Datatables::of($sells)
+
+                ->addColumn('checkbox', function ($row) {
+                    return '<input class="selected_sell_item" type="checkbox" value="'.$row->id.'">';
+                })
                 ->addColumn(
                     'action',
                     function ($row) use ($only_shipments, $is_admin, $sale_type) {
@@ -563,16 +567,19 @@ class SellController extends Controller
                     return $status;
                 })
                 ->editColumn('so_qty_remaining', '{{@format_quantity($so_qty_remaining)}}')
-                ->setRowAttr([
-                    'data-href' => function ($row) {
-                        if (auth()->user()->can("sell.view") || auth()->user()->can("view_own_sell_only")) {
-                            return  action('SellController@show', [$row->id]) ;
-                        } else {
-                            return '';
-                        }
-                    }]);
 
-            $rawColumns = ['final_total', 'action', 'total_paid', 'total_remaining', 'payment_status', 'invoice_no', 'discount_amount', 'tax_amount', 'total_before_tax', 'shipping_status', 'types_of_service_name', 'payment_methods', 'return_due', 'conatct_name', 'status'];
+                //@todo Rowa tıklayınca direkt detaya gitmesi seçme işlemini engellediği için kapatıldı
+//                ->setRowAttr([
+//                    'data-href' => function ($row) {
+//                        if (auth()->user()->can("sell.view") || auth()->user()->can("view_own_sell_only")) {
+//                            return  action('SellController@show', [$row->id]) ;
+//                        } else {
+//                            return '';
+//                        }
+//                }])
+                ;
+
+            $rawColumns = ['checkbox','final_total', 'action', 'total_paid', 'total_remaining', 'payment_status', 'invoice_no', 'discount_amount', 'tax_amount', 'total_before_tax', 'shipping_status', 'types_of_service_name', 'payment_methods', 'return_due', 'conatct_name', 'status'];
                 
             return $datatable->rawColumns($rawColumns)
                       ->make(true);
