@@ -155,11 +155,14 @@
 				</tr>
 			</thead>
 			<tbody>
+			@php
+			$order = 1;
+			@endphp
 			@foreach($receipts as $receipt_details)
 				@foreach($receipt_details->lines as $line)
 					<tr>
 						<td class="text-center">
-							{{$loop->iteration}}
+							{{$order++}}
 						</td>
 						<td style="word-break: break-all;">
                             {{$line['name']}} {{$line['product_variation']}} {{$line['variation']}} 

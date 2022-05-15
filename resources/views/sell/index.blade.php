@@ -217,7 +217,7 @@ $(document).ready( function(){
         buttons: [
             'copy', 'csv', 'excel', 'pdf',
             {
-                text: 'Yazdur',
+                text: 'Multi Print',
                 action: function ( e, dt, node, config ) {
                     var ids = [];
                     var selected_reports = $('.selected_sell_item:checked');
