@@ -2311,9 +2311,12 @@ class ReportController extends Controller
             }
 
             return Datatables::of($query)
+                ->editColumn('checkbox', function ($row) {
+                    return '<input class="selected_report_item" type="checkbox" value="'.$row->transaction_id.'">';
+                })
                  ->editColumn('invoice_no', function ($row) {
                      if (!empty($row->transaction_id)) {
-                         return '<a data-href="' . action('SellController@show', [$row->transaction_id])
+                         return '<a data-href="'. action('SellController@show', [$row->transaction_id])
                             . '" href="#" data-container=".view_modal" class="btn-modal">' . $row->invoice_no . '</a>';
                      } else {
                          return '';
@@ -2346,7 +2349,7 @@ class ReportController extends Controller
                 })
                 ->addColumn('action', '<button type="button" class="btn btn-primary btn-xs view_payment" data-href="{{ action("TransactionPaymentController@viewPayment", [$DT_RowId]) }}">@lang("messages.view")
                     </button> @if(!empty($document))<a href="{{asset("/uploads/documents/" . $document)}}" class="btn btn-success btn-xs" download=""><i class="fa fa-download"></i> @lang("purchase.download_document")</a>@endif')
-                ->rawColumns(['invoice_no', 'amount', 'method', 'action', 'customer'])
+                ->rawColumns(['checkbox','invoice_no', 'amount', 'method', 'action', 'customer'])
                 ->make(true);
         }
         $business_locations = BusinessLocation::forDropdown($business_id);
